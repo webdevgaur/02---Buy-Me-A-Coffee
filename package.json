@@ -2,7 +2,7 @@
   "name": "02---buy-me-a-coffee",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,6 +13,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.4",
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "@openzeppelin/contracts": "^4.7.3",
     "@types/react": "^18.0.22",

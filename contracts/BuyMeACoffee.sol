@@ -6,14 +6,14 @@ import "hardhat/console.sol";
 
 contract BuyMeACoffee {
 
-    event NewMemo{
+    event NewMemo(
         address indexed from,
         uint256 timestamp,
         string name,
         string message
-    };
+    );
 
-    struct Memo = {
+    struct Memo {
         address from;
         uint256 timestamp;
         string name;
@@ -62,7 +62,7 @@ contract BuyMeACoffee {
      * @dev Retrieve memos stored onchain for the frontend client to display
      */
     function getMemos() public view returns(Memo[] memory) {
-        
+
     }
 
 
