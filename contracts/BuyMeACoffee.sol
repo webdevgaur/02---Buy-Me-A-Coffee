@@ -54,7 +54,7 @@ contract BuyMeACoffee {
     /**
      * @dev Send the balanced stored in the contract to the owner
      */
-    function withDrawTips() public {        
+    function withdrawTips() public {        
         require(owner.send(address(this).balance));
     }
 
@@ -62,7 +62,7 @@ contract BuyMeACoffee {
      * @dev Retrieve memos stored onchain for the frontend client to display
      */
     function getMemos() public view returns(Memo[] memory) {
-
+        return memos;
     }
 
 

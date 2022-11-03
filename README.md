@@ -11,3 +11,7 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.js
 ```
+
+#Deployed contracts
+
+1. Contract deployed to address: 0xF12302aD3f1e1cc1179730E211d91A8E1AD299C2

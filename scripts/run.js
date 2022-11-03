@@ -1,15 +1,15 @@
 const hre = require("hardhat");
 
-async function getBalances(address, buyMeACoffeeContract) {
+async function getBalances(address) {
     const balanceBigInt = await hre.ethers.provider.getBalance(address);
     // console.log('Balance is:', balanceBigInt);
     return hre.ethers.utils.formatEther(balanceBigInt);
 }
 
-async function printBalances(addresses, buyMeACoffeeContract) {
+async function printBalances(addresses) {
     let i = 0;
     for (let address of addresses) {
-        console.log(`Balance of address ${i}:`, await getBalances(address, buyMeACoffeeContract));
+        console.log(`Balance of address ${i}:`, await getBalances(address));
         i++;
     }
 }
@@ -33,7 +33,7 @@ async function main() {
 
     const addresses = [owner.address, tipper.address, buyMeACoffeeContract.address];
     console.log('=====Starting here=====');
-    await printBalances(addresses, buyMeACoffeeContract);
+    await printBalances(addresses);
 
     const tip = {value: hre.ethers.utils.parseEther('1')};
     await buyMeACoffeeContract.connect(tipper).buyCoffee('Sanskriti', 'Message from Sanskriti', tip);
@@ -41,7 +41,15 @@ async function main() {
     await buyMeACoffeeContract.connect(tipper3).buyCoffee('Aravind', 'Message from Aravind', tip);
 
     console.log('=====Bought coffees=====');
-    await printBalances(addresses, buyMeACoffeeContract);
+    await printBalances(addresses);
+
+    await buyMeACoffeeContract.withdrawTips();
+    console.log('=====Tips withdrawn=====');
+    await printBalances(addresses);
+
+    const memos = await buyMeACoffeeContract.getMemos();
+    console.log('=====Memos fetched=====');
+    printMemos(memos);
 
 }
 
