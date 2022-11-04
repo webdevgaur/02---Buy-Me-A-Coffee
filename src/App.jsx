@@ -1,32 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { ethers } from 'ethers';
+import contractBinary from './artifacts/contracts/BuyMeACoffee.sol/BuyMeACoffee.json';
+import { useState } from 'react';
+import './App.css';
+
+const CONTRACT_ADDRESS = '0xF12302aD3f1e1cc1179730E211d91A8E1AD299C2';
+
+const CoffeeBuyingButton = () => {
+  return(
+    <button type='submit'>Buy the coffee</button>
+  );
+}
+
+const {ethereum} = windows;
+
+const getSmartContractInstance = () => {
+  if(!ethereum) alert('Wallet not found! Install metamask.');
+  else {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const buyMeACoffeeContract = new ethers.Contract(CONTRACT_ADDRESS, contractBinary.abi, signer);
+    return buyMeACoffeeContract;
+  }
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="buying-experience">
+        <h1>☕ Buy Anurag a Coffee ☕</h1>
+        <h3>And please don't ask why 😡</h3>
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="message-board"></div>
     </div>
   )
 }
