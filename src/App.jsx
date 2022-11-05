@@ -13,7 +13,21 @@ const CoffeeBuyingButton = ({setCurrentAccount}) => {
   );
 }
 
-const WalletConnetButton = () => {
+const WalletConnetButton = ({setCurrentAccount}) => {
+  const connectWallet = async () => {
+    try {
+      if(!ethereum) {
+        alert('Wallet not found! Install metamask.');
+        return;
+      }
+      const accounts = await ethereum.request({method: 'eth_requestAccounts'});
+      setCurrentAccount(accounts[0]);
+      console.log('Hello', accounts[0], ', nice to have you here!');
+    } catch (error) {
+      alert('There has been an error. Check the console (press F12).');
+      console.log(error);
+    }
+  }
   return(
     <button type='submit'onClick={connectWallet}>Connect wallet</button>
   );
@@ -33,35 +47,20 @@ const getSmartContractInstance = () => {
   
 }
 
-const checkWalletConnection = async () => {
+const checkWalletConnection = async (setCurrentAccount) => {
   if(!ethereum) {
     alert('Wallet not found! Install metamask.');
     return;
   }
   const accounts = await ethereum.request({method: 'eth_accounts'});
-  accounts.length > 0 ? setCurrentAccount(accounts[0]) : alert('No authorised accounts present.');
+  accounts.length > 0 ? setCurrentAccount(accounts[0]) : console.log('No authorised accounts present.');
 }
 
-
-const connectWallet = async ({setCurrentAccount}) => {
-  try {
-    if(!ethereum) {
-      alert('Wallet not found! Install metamask.');
-      return;
-    }
-    const accounts = await ethereum.request({method: 'eth_requestAccounts'});
-    setCurrentAccount(accounts[0]);
-    console.log('Hello', accounts[0], ', nice to have you here!');
-  } catch (error) {
-    alert('There has been an error. Check the console (press F12).');
-    console.log(error);
-  }
-}
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState('');
   useEffect(() => {
-    checkWalletConnection();
+    checkWalletConnection(setCurrentAccount);
   }, [])
   return (
     <div className="App">
