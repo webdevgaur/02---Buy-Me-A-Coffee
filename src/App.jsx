@@ -1,17 +1,14 @@
 import { ethers } from 'ethers';
 import contractBinary from './artifacts/contracts/BuyMeACoffee.sol/BuyMeACoffee.json';
 import { useState, useEffect } from 'react';
+import BuyCoffee from './components/BuyCoffee/BuyCoffee';
 import './App.css';
 
 const CONTRACT_ADDRESS = '0xF12302aD3f1e1cc1179730E211d91A8E1AD299C2';
 
 const {ethereum} = window;
 
-const CoffeeBuyingButton = ({setCurrentAccount}) => {
-  return(
-    <button type='submit'>Buy the coffee</button>
-  );
-}
+
 
 const WalletConnetButton = ({setCurrentAccount}) => {
   const connectWallet = async () => {
@@ -33,8 +30,6 @@ const WalletConnetButton = ({setCurrentAccount}) => {
   );
 }
 
-
-
 const getSmartContractInstance = () => {
   if(!ethereum) {
     alert('Wallet not found! Install metamask.');
@@ -47,21 +42,23 @@ const getSmartContractInstance = () => {
   
 }
 
-const checkWalletConnection = async (setCurrentAccount) => {
-  if(!ethereum) {
-    alert('Wallet not found! Install metamask.');
-    return;
-  }
-  const accounts = await ethereum.request({method: 'eth_accounts'});
-  accounts.length > 0 ? setCurrentAccount(accounts[0]) : console.log('No authorised accounts present.');
-}
-
-
 function App() {
+  
   const [currentAccount, setCurrentAccount] = useState('');
+  
+  const checkWalletConnection = async (setCurrentAccount) => {
+    if(!ethereum) {
+      alert('Wallet not found! Install metamask.');
+      return;
+    }
+    const accounts = await ethereum.request({method: 'eth_accounts'});
+    accounts.length > 0 ? setCurrentAccount(accounts[0]) : console.log('No authorised accounts present.');
+  }
+
   useEffect(() => {
     checkWalletConnection(setCurrentAccount);
-  }, [])
+  }, []);
+
   return (
     <div className="App">
       <div className="buying-experience">
@@ -69,7 +66,7 @@ function App() {
         <h3>And please don't ask why 😡</h3>
         <div className="button-area">
           {
-            currentAccount ? <CoffeeBuyingButton setCurrentAccount={setCurrentAccount} /> : <WalletConnetButton setCurrentAccount={setCurrentAccount} />
+            currentAccount ? <BuyCoffee /> : <WalletConnetButton setCurrentAccount={setCurrentAccount} />
           }
         </div>
       </div>
