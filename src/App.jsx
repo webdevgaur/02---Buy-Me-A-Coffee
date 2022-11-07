@@ -1,27 +1,21 @@
-import { ethers } from 'ethers';
-import contractBinary from './artifacts/contracts/BuyMeACoffee.sol/BuyMeACoffee.json';
 import { useState, useEffect } from 'react';
 import BuyCoffee from './components/BuyCoffee/BuyCoffee';
 import './App.css';
 
-const CONTRACT_ADDRESS = '0xF12302aD3f1e1cc1179730E211d91A8E1AD299C2';
-
 const {ethereum} = window;
-
-
 
 const WalletConnetButton = ({setCurrentAccount}) => {
   const connectWallet = async () => {
     try {
       if(!ethereum) {
-        alert('Wallet not found! Install metamask.');
+        alert('Wallet not found! Install metamask. 🦊');
         return;
       }
       const accounts = await ethereum.request({method: 'eth_requestAccounts'});
       setCurrentAccount(accounts[0]);
-      console.log('Hello', accounts[0], ', nice to have you here!');
+      console.log('Hello', accounts[0], ', nice to have you here! 👋');
     } catch (error) {
-      alert('There has been an error. Check the console (press F12).');
+      alert('⚠️ There has been an error. Check the console (press F12) ⚠️');
       console.log(error);
     }
   }
@@ -30,25 +24,13 @@ const WalletConnetButton = ({setCurrentAccount}) => {
   );
 }
 
-const getSmartContractInstance = () => {
-  if(!ethereum) {
-    alert('Wallet not found! Install metamask.');
-    return;
-  }
-  const provider = new ethers.providers.Web3Provider(ethereum);
-  const signer = provider.getSigner();
-  const buyMeACoffeeContract = new ethers.Contract(CONTRACT_ADDRESS, contractBinary.abi, signer);
-  return buyMeACoffeeContract;
-  
-}
-
 function App() {
   
   const [currentAccount, setCurrentAccount] = useState('');
   
   const checkWalletConnection = async (setCurrentAccount) => {
     if(!ethereum) {
-      alert('Wallet not found! Install metamask.');
+      alert('Wallet not found! Install metamask. 🦊');
       return;
     }
     const accounts = await ethereum.request({method: 'eth_accounts'});
@@ -66,7 +48,7 @@ function App() {
         <h3>And please don't ask why 😡</h3>
         <div className="button-area">
           {
-            currentAccount ? <BuyCoffee /> : <WalletConnetButton setCurrentAccount={setCurrentAccount} />
+            currentAccount ? <BuyCoffee ethObject={ethereum} /> : <WalletConnetButton setCurrentAccount={setCurrentAccount} />
           }
         </div>
       </div>
