@@ -1,12 +1,14 @@
 .input-field {
-    width: 50vw;
-    border-radius: 2rem;
-    padding: 1rem;
+    color: #212121;
 }
 
 .text-area {
-    width: 50vw;
     height: 15vh;
+    color: deeppink;
+}
+
+.text-area, .input-field {
+    width: 50vw;
     white-space: normal;
     text-align: justify;
     -moz-text-align-last: center; /* Firefox 12+ */
@@ -17,6 +19,7 @@
     font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 24px;
-    font-weight: 400;
-    color: deeppink;
+    font-weight: 600;
+    border: 2px solid #eee;
+    outline: none;
 }
