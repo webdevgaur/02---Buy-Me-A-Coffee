@@ -52,7 +52,9 @@ function App() {
           }
         </div>
       </div>
-      <div className="message-board"></div>
+      <div className="message-board">
+        
+      </div>
     </div>
   )
 }
