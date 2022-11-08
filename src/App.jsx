@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import BuyCoffee from './components/BuyCoffee/BuyCoffee';
+import DisplayMemos from './components/DisplayMemos/DisplayMemos';
 import './App.css';
 
 const {ethereum} = window;
@@ -53,7 +54,7 @@ function App() {
         </div>
       </div>
       <div className="message-board">
-        
+          <DisplayMemos />
       </div>
     </div>
   )
