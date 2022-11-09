@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import BuyCoffee from './components/BuyCoffee/BuyCoffee';
 import DisplayMemos from './components/DisplayMemos/DisplayMemos';
+import contractBinary from './artifacts/contracts/BuyMeACoffee.sol/BuyMeACoffee.json';
 import './App.css';
+import { ethers } from 'ethers';
 
 const {ethereum} = window;
+const CONTRACT_ADDRESS = '0xF12302aD3f1e1cc1179730E211d91A8E1AD299C2';
 
 const WalletConnetButton = ({setCurrentAccount}) => {
   const connectWallet = async () => {
@@ -25,9 +28,22 @@ const WalletConnetButton = ({setCurrentAccount}) => {
   );
 }
 
+const getSmartContractInstance = () => {
+  if(!ethereum) {
+    alert('Wallet not found! Install metamask. 🦊');
+    return;
+  }
+  const provider = new ethers.providers.Web3Provider(ethereum);
+  const signer = provider.getSigner();
+  const buyMeACoffeeContract = new ethers.Contract(CONTRACT_ADDRESS, contractBinary.abi, signer);
+  return buyMeACoffeeContract;
+  
+}
+
 function App() {
   
   const [currentAccount, setCurrentAccount] = useState('');
+  const buyMeACoffeeContract = getSmartContractInstance();
   
   const checkWalletConnection = async (setCurrentAccount) => {
     if(!ethereum) {
@@ -49,12 +65,12 @@ function App() {
         <h3>And please don't ask why 😡</h3>
         <div className="button-area">
           {
-            currentAccount ? <BuyCoffee ethObject={ethereum} /> : <WalletConnetButton setCurrentAccount={setCurrentAccount} />
+            currentAccount ? <BuyCoffee buyCoffeeInstance={buyMeACoffeeContract} /> : <WalletConnetButton setCurrentAccount={setCurrentAccount} />
           }
         </div>
       </div>
       <div className="message-board">
-          <DisplayMemos />
+          <DisplayMemos buyCoffeeInstance={buyMeACoffeeContract} />
       </div>
     </div>
   )

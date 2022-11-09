@@ -2,15 +2,12 @@ import React from 'react';
 import { useState } from 'react';
 import '../../App.css';
 import './BuyCoffee.css';
-import { ethers } from 'ethers';
-import contractBinary from '../../artifacts/contracts/BuyMeACoffee.sol/BuyMeACoffee.json';
-import { messagePrefix } from '@ethersproject/hash';
 
-function BuyCoffee({ethObject}) {
+function BuyCoffee({buyCoffeeInstance}) {
 
   const [userMessage, setUserMessage] = useState('');
   const [userName, setUserName] = useState('');
-  const CONTRACT_ADDRESS = '0xF12302aD3f1e1cc1179730E211d91A8E1AD299C2';
+  
 
   const CoffeeBuyingButton = () => {
       return(
@@ -26,23 +23,8 @@ function BuyCoffee({ethObject}) {
     setUserName(event.target.value);
   }
 
-  const getSmartContractInstance = () => {
-    if(!ethObject) {
-      alert('Wallet not found! Install metamask. 🦊');
-      return;
-    }
-    const provider = new ethers.providers.Web3Provider(ethObject);
-    const signer = provider.getSigner();
-    const buyMeACoffeeContract = new ethers.Contract(CONTRACT_ADDRESS, contractBinary.abi, signer);
-    return buyMeACoffeeContract;
-    
-  }
-
   const buyCoffee = async () => {
     try {
-
-      const buyCoffeeInstance = getSmartContractInstance();
-
       console.log('🚀 Begin buying coffee transaction 🚀')
       const coffeeTxn = await buyCoffeeInstance.buyCoffee(
         userName ? userName : 'A kind stranger 🤗',
