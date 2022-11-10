@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { ethers } from 'ethers';
 import '../../App.css';
 import './BuyCoffee.css';
 
@@ -25,7 +26,8 @@ function BuyCoffee({buyCoffeeInstance}) {
 
   const buyCoffee = async () => {
     try {
-      console.log('🚀 Begin buying coffee transaction 🚀')
+      console.log('🚀 Begin buying coffee transaction 🚀');
+      console.log('Smart contract instance sent by App.jsx:', buyCoffeeInstance);
       const coffeeTxn = await buyCoffeeInstance.buyCoffee(
         userName ? userName : 'A kind stranger 🤗',
         userMessage ? userMessage : 'Enjoy your ☕☕. I am generous with my ETH 💸 but not my time 🕒. ',
@@ -40,7 +42,7 @@ function BuyCoffee({buyCoffeeInstance}) {
       setUserMessage('');
 
     } catch (error) {
-      alert('There has been an error!❌', error);
+      console.log('Error in the try catch block:', error);
     }
   }
 

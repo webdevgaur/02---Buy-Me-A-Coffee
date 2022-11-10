@@ -5,31 +5,27 @@ import '../../App.css';
 
 function DisplayMemos({buyCoffeeInstance}) {
 
-  const [memoList, setMemoList] = useState('');
+  const [memoList, setMemoList] = useState([]);
   // function to connect to the smart contract and fetch memos to display on screen
   const memoFetcher = async () => {
     try {
       console.log('Let\'s go fetch some memos!');
       let fetchedMemos = await buyCoffeeInstance.getMemos();
-      return fetchedMemos;
+      console.log('Memos fetched from the smart contract -', fetchedMemos);
+      setMemoList(fetchedMemos);
     } catch (error) {
-      alert('There has been as error:\n', error);
+      alert('There has been as error in DisplayMemos.jsx', error);
     }
-  }
-
-  // setMemoList(memoFetcher);
-  con0sole.log('This is what we got from the smart contract -', memoList);
-
-  // useEffect( () => {
-
-  // }, []);
+  }  
+ 
+  useEffect( () => {
+    memoFetcher();
+  }, []);
 
     
   return (
     <div className='memo-wrapper'>
-        {
-
-        }
+        Will this work?
     </div>
   )
 }
