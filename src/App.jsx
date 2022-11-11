@@ -45,7 +45,7 @@ function App() {
   const [currentAccount, setCurrentAccount] = useState('');
   const buyMeACoffeeContract = getSmartContractInstance();
   
-  const checkWalletConnection = async (setCurrentAccount) => {
+  const checkWalletConnection = async () => {
     if(!ethereum) {
       alert('Wallet not found! Install metamask. 🦊');
       return;
@@ -55,7 +55,7 @@ function App() {
   }
 
   useEffect(() => {
-    checkWalletConnection(setCurrentAccount);
+    checkWalletConnection();
   }, []);
 
   return (
@@ -70,7 +70,9 @@ function App() {
         </div>
       </div>
       <div className="message-board">
-          <DisplayMemos buyCoffeeInstance={buyMeACoffeeContract} />
+          {
+            currentAccount && <DisplayMemos buyCoffeeInstance={buyMeACoffeeContract} userAccount={currentAccount} />
+          }
       </div>
     </div>
   )
