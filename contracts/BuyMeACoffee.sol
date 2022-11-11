@@ -49,6 +49,8 @@ contract BuyMeACoffee {
             _name,
             _message
         );
+
+        console.log('This is the timestamp-', block.timestamp);
     }
 
     /**

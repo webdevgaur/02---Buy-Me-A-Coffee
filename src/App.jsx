@@ -42,6 +42,7 @@ const getSmartContractInstance = () => {
 
 function App() {
   
+  
   const [currentAccount, setCurrentAccount] = useState('');
   const buyMeACoffeeContract = getSmartContractInstance();
   

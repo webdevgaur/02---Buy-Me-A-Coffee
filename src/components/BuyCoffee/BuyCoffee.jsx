@@ -24,6 +24,10 @@ function BuyCoffee({buyCoffeeInstance}) {
     setUserName(event.target.value);
   }
 
+  const displayTransaction = () => {
+    
+  }
+
   const buyCoffee = async () => {
     try {
       console.log('🚀 Begin buying coffee transaction 🚀');
@@ -37,6 +41,8 @@ function BuyCoffee({buyCoffeeInstance}) {
       console.log('Mining underway... ⚒️');
       await coffeeTxn.wait();
       console.log('Transaction mined! 👷 \nEnjoy your coffee!');
+
+      displayTransaction();
 
       setUserName('');
       setUserMessage('');
