@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "confetti-js": "^0.0.18",
     "dotenv": "^16.0.3",
     "i": "^0.3.7",
     "npm": "^8.19.2",
