@@ -15,11 +15,16 @@ const WalletConnetButton = ({setCurrentAccount}) => {
         alert('Wallet not found! Install metamask. 🦊');
         return;
       }
+      const goerliChainId = '0x5';
+      let currentChainId = await ethereum.request({method: 'eth_chainId'});
+      if(currentChainId !== goerliChainId) {
+        alert('You are not connected to the Goerli test network.\nConnect to the Goeli test network otherwise your funds can get lost.')
+      }
       const accounts = await ethereum.request({method: 'eth_requestAccounts'});
       setCurrentAccount(accounts[0]);
       console.log('Hello', accounts[0], ', nice to have you here! 👋');
     } catch (error) {
-      alert('⚠️ There has been an error. Check the console (press F12) ⚠️');
+      alert('⚠️ There has been an error while connecting your wallet. Check the console (press F12) ⚠️');
       console.log(error);
     }
   }
@@ -44,6 +49,7 @@ function App() {
   
   
   const [currentAccount, setCurrentAccount] = useState('');
+  const [memoEntry, setMemoEntry] = useState({});
   const buyMeACoffeeContract = getSmartContractInstance();
   
   const checkWalletConnection = async () => {
@@ -66,13 +72,13 @@ function App() {
         <h3>And please don't ask why 😡</h3>
         <div className="button-area">
           {
-            currentAccount ? <BuyCoffee buyCoffeeInstance={buyMeACoffeeContract} /> : <WalletConnetButton setCurrentAccount={setCurrentAccount} />
+            currentAccount ? <BuyCoffee buyCoffeeInstance={buyMeACoffeeContract} userAccount={currentAccount} setMemoEntry={setMemoEntry} /> : <WalletConnetButton setCurrentAccount={setCurrentAccount} />
           }
         </div>
       </div>
       <div className="message-board">
           {
-            currentAccount && <DisplayMemos buyCoffeeInstance={buyMeACoffeeContract} userAccount={currentAccount} />
+            currentAccount && <DisplayMemos buyCoffeeInstance={buyMeACoffeeContract} userAccount={currentAccount} memoEntry={memoEntry} />
           }
       </div>
     </div>
