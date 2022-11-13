@@ -3,12 +3,15 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 import '../../App.css';
 import './BuyCoffee.css';
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 function BuyCoffee({buyCoffeeInstance, userAccount, setMemoEntry}) {
 
   const [userMessage, setUserMessage] = useState('');  
   const [userName, setUserName] = useState('');
   const [isWalletOpen, setIsWalletOpen] = useState(false);
+  const [isTxnUnderway, setIsTxnUnderway] = useState(false);
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
 
   const CoffeeBuyingButton = () => {
       return(
@@ -28,15 +31,19 @@ function BuyCoffee({buyCoffeeInstance, userAccount, setMemoEntry}) {
   const buyCoffee = async () => {
     try {
       console.log('🚀 Begin buying coffee transaction 🚀');
-      setIsWalletOpen(!isWalletOpen);
+      setIsWalletOpen(value => !value);
+      setIsTxnUnderway(value => !value);
+      setIsDialogVisible(value => !value);
       const coffeeTxn = await buyCoffeeInstance.buyCoffee(
         userName ? userName : 'A kind stranger 🤗',
         userMessage ? userMessage : 'Enjoy your ☕☕. I am generous with my ETH 💸 but not my time 🕒',
         {value: ethers.utils.parseEther('0.001')}
       );
+      setIsWalletOpen(value => !value);
       console.log('Mining underway... ⚒️');
       await coffeeTxn.wait();
       console.log('Transaction mined! 👷 \nEnjoy your coffee!');
+      setIsTxnUnderway(value => !value);
 
       setMemoEntry(
         {
@@ -65,7 +72,7 @@ function BuyCoffee({buyCoffeeInstance, userAccount, setMemoEntry}) {
         </div>
         <CoffeeBuyingButton />
         {
-          isWalletOpen 
+          isDialogVisible && <LoadingScreen isWalletOpen={isWalletOpen} isTxnUnderway={isTxnUnderway} setIsDialogVisible={setIsDialogVisible} />
         }
     </>
   )
