@@ -6,7 +6,7 @@ import './App.css';
 import { ethers } from 'ethers';
 
 const {ethereum} = window;
-const CONTRACT_ADDRESS = '0xF12302aD3f1e1cc1179730E211d91A8E1AD299C2';
+const CONTRACT_ADDRESS = '0xE5C0C8Ce3703E5035127AcF3D75dF0009f00bD4D';
 
 const WalletConnetButton = ({setCurrentAccount}) => {
   const connectWallet = async () => {
